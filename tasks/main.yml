@@ -1,0 +1,11 @@
+---
+- name: main - check if go is installed and version is 1.2
+  shell: go version
+  register: go_version
+  ignore_errors: yes
+
+- include: go.yml tags=docker_debian_go
+  when: "'go1.2' not in go_version.stdout"
+
+- include: kernel.yml tags=docker_debian_kernel
+- include: docker.yml tags=docker_debian_docker

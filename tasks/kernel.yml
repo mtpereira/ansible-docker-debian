@@ -1,0 +1,24 @@
+---
+- name: kernel - mount cgroup
+  mount: src=none name=/sys/fs/cgroup fstype=cgroup opts=defaults passno="0 0" state=mounted
+  sudo: yes
+
+- name: kernel - add cgroup options to kernel boot arguments
+  lineinfile: dest=/etc/default/grub line='GRUB_CMDLINE_LINUX="cgroup_enable=memory swapaccount=1"' state=present
+  register: grub
+  sudo: yes
+
+- name: kernel - update grub and reboot
+  shell: update-grub2 && shutdown -r now
+  when: grub|changed
+  register: reboot
+  sudo: yes
+
+- name: kernel - wait for reboot
+  local_action:
+    module: wait_for
+    host: "{{ ansible_ssh_host }}"
+    port: "{{ ansible_ssh_port | default(22) }}"
+    delay: 30
+    timeout: 600
+    state: started

@@ -1,0 +1,36 @@
+---
+- name: go - create build dir
+  file: dest={{ docker_debian_go_build_dir }} state=directory
+
+- name: go - get source packages
+  get_url: url={{ item }} dest={{ docker_debian_go_build_dir }}
+  with_items:
+    - "http://ftp.de.debian.org/debian/pool/main/g/golang/golang_1.2-2.dsc"
+    - "http://ftp.de.debian.org/debian/pool/main/g/golang/golang_1.2.orig.tar.gz"
+    - "http://ftp.de.debian.org/debian/pool/main/g/golang/golang_1.2-2.debian.tar.gz"
+
+- name: go - install build tools
+  apt: pkg={{ item }} update_cache=yes cache_valid_time=3600
+  with_items:
+    - build-essential
+  sudo: yes
+
+- name: go - extract .dsc
+  command: dpkg-source -x golang_1.2-2.dsc chdir={{ docker_debian_go_build_dir }} creates={{ docker_debian_go_build_dir }}/golang-1.2
+
+- name: go - install build dependencies
+  command: apt-get -y build-dep golang chdir={{ docker_debian_go_build_dir }}/golang-1.2
+  sudo: yes
+
+- name: go - build package
+  command: dpkg-buildpackage -rfakeroot -us -uc -a{{ docker_debian_go_build_arch }} -t{{ docker_debian_go_build_system }} chdir={{ docker_debian_go_build_dir }}/golang-1.2
+
+- name: go - install packages
+  command: dpkg --install {{ item }} chdir={{ docker_debian_go_build_dir }}
+  with_items:
+    - golang-go-linux-{{ docker_debian_go_build_arch }}_1.2-2_{{ docker_debian_go_build_arch }}.deb
+    - golang-src_1.2-2_{{ docker_debian_go_build_arch }}.deb
+    - golang-go_1.2-2_{{ docker_debian_go_build_arch }}.deb
+    - golang-doc_1.2-2_all.deb
+    - golang_1.2-2_all.deb
+  sudo: yes

@@ -1,0 +1,17 @@
+---
+- name: docker-debian - testing with vagrant
+  hosts: all
+
+  pre_tasks:
+    - name: pre-tasks - install ansible dependecies
+      apt: pkg={{ item }} update_cache=yes cache_valid_time=3600
+      with_items:
+        - lsb-release
+        - python-apt
+        - python-pycurl
+        - aptitude
+      sudo: yes
+      tags: docker_debian_pre_tasks
+
+  roles:
+    - .

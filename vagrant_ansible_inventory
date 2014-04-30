@@ -1,0 +1,1 @@
+docker-debian ansible_ssh_host=10.0.0.40 ansible_ssh_user=vagrant
