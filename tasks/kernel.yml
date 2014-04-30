@@ -1,6 +1,10 @@
 ---
-- name: kernel - mount cgroup
-  mount: src=none name=/sys/fs/cgroup fstype=cgroup opts=defaults passno="0 0" state=mounted
+- name: kernel - add backports repo
+  apt_repository: repo='deb http://ftp.debian.org/debian/ wheezy-backports main non-free contrib' update_cache=yes state=present
+  sudo: yes
+
+- name: kernel - install backported kernel
+  apt: pkg="linux-image-{{ docker_debian_go_build_arch }}" default_release='wheezy-backports' state=latest
   sudo: yes
 
 - name: kernel - add cgroup options to kernel boot arguments
@@ -9,7 +13,7 @@
   sudo: yes
 
 - name: kernel - update grub and reboot
-  shell: update-grub2 && shutdown -r now
+  shell: shutdown -r now
   when: grub|changed
   register: reboot
   sudo: yes
