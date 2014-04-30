@@ -38,6 +38,6 @@ MIT
 Author Information
 ------------------
 
-[GitHub project page](https://github.com/mtpereira/ansible-debian-docker)
+[GitHub project page](https://github.com/mtpereira/ansible-docker-debian)
 
 [Manuel Tiago Pereira](http://mtpereira.github.io)
