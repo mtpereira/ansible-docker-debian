@@ -1,29 +1,38 @@
-Role Name
+Docker Debian
 ========
 
-A brief description of the role goes here.
+A role for installing Docker in Debian Wheezy.
+
+Wheezy has 2 dependencies missing for docker: golang >= 1.2 and linux kernel >= 3.8.0. This role builds and installs golang 1.2 packages from deb source and installs the newest kernel from wheezy-backports.
+
+Oh, and also installs docker. :)
 
 Requirements
 ------------
 
-Any pre-requisites that may not be covered by the ansible itself or the role should be mentioned here. For instance, if the role uses the EC2 module, it may be a good idea to mention in this section that the boto package is required.
+None.
 
 Role Variables
 --------------
 
-A description of the settable variables for this role should go here, including any variables that are in defaults/main.yml, vars/main.yml, and any variables that can/should be set via parameters to the role. Any variables that are read from other roles and/or the global scope (ie. hostvars, group vars, etc.) should be mentioned here as well.
+* `docker_debian_go_build_dir`: Directory where the golang packages will be built. Defaults to `/tmp/golang`.
+* `docker_debian_go_build_arch`: Architecture for the binary golang packages. Defaults to `amd64`.
+* `docker_debian_go_build_system`: Architecture for `dpkg-buildpackage`. Defaults to `x86_64-linux-gnu`.
+* `docker_debian_kernel_arch`: Backport kernel architecture. Defaults to the value of `docker_debian_go_build_arch`.
 
 Dependencies
 ------------
 
-A list of other roles hosted on Galaxy should go here, plus any details in regards to parameters that may need to be set for other roles, or variables that are used from other roles.
+None, but using **mtpereira.common** or a similar role is recommended.
 
 License
 -------
 
-BSD
+MIT
 
 Author Information
 ------------------
 
-An optional section for the role authors to include contact information, or a website (HTML is not allowed).
+[GitHub project page](https://github.com/mtpereira/ansible-debian-docker)
+
+[Manuel Tiago Pereira](http://mtpereira.github.io)

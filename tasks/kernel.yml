@@ -4,7 +4,7 @@
   sudo: yes
 
 - name: kernel - install backported kernel
-  apt: pkg="linux-image-{{ docker_debian_go_build_arch }}" default_release='wheezy-backports' state=latest
+  apt: pkg="linux-image-{{ docker_debian_kernel_arch }}" default_release='wheezy-backports' state=latest
   sudo: yes
 
 - name: kernel - add cgroup options to kernel boot arguments

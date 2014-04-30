@@ -2,3 +2,4 @@
 docker_debian_go_build_dir: "/tmp/golang"
 docker_debian_go_build_arch: "amd64"
 docker_debian_go_build_system: "x86_64-linux-gnu"
+docker_debian_kernel_arch: "{{ docker_debian_go_build_arch }}"
