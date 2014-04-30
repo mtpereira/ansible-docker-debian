@@ -25,6 +25,11 @@ Dependencies
 
 None, but using **mtpereira.common** or a similar role is recommended.
 
+Testing
+-------
+
+For testing purposes, a Vagrantfile was added. Simply run ```vagrant up``` in your working copy dir to get a Debian host up and provisioned with ```docker-debian.yml``` playbook.
+
 License
 -------
 
